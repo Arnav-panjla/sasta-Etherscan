@@ -7,55 +7,60 @@ import TransactionHistory from './components/TransactionHistory';
 const walletAddress = process.env.REACT_APP_WALLETADDRESS;
 const sepAPI = process.env.REACT_APP_APISEP;
 const ethAPI = process.env.REACT_APP_APIETH;
+const polyAPI = process.env.REACT_APP_APIPOLY;
 
 const providerSep = new ethers.providers.JsonRpcProvider(sepAPI);
 const providerEth = new ethers.providers.JsonRpcProvider(ethAPI);
+const providerPoly = new ethers.providers.JsonRpcProvider(polyAPI);
 
 const address = walletAddress;
 
 function App() {
   const [sepBlockCounter, setSepBlockCounter] = useState<number>(0);
   const [ethBlockCounter, setEthBlockCounter] = useState<number>(0);
+  const [polyBlockCounter, setPolyBlockCounter] = useState<number>(0);
 
   const queryBlockchainEth = async () => {
     const block = await providerEth.getBlockNumber();
     setEthBlockCounter(block);
-    // console.log(`Current Ethereum Block Number: ${block}`);     
   };
-
-  useEffect(() => {
-    queryBlockchainEth(); // Initial query
-    const interval = setInterval(() => {
-      queryBlockchainEth();
-    }, 10000); // Poll every 10 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, []); // Empty dependency array means this effect runs once on mount and sets up the interval
-
   const queryBlockchainSep = async () => {
     const block = await providerSep.getBlockNumber();
     setSepBlockCounter(block);
-    // console.log(`Current Sepolia Block Number: ${block}`);     
+  };
+  const queryBlockchainPoly = async () => {
+    const block = await providerPoly.getBlockNumber();
+    setPolyBlockCounter(block);
   };
 
-  useEffect(() => {
-    queryBlockchainSep(); // Initial query
-    const interval = setInterval(() => {
-      queryBlockchainSep();
-    }, 10000); // Poll every 10 seconds
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, []); // Empty dependency array means this effect runs once on mount and sets up the interval
+
+  useEffect(() => {
+    queryBlockchainEth();
+    queryBlockchainSep();
+    queryBlockchainPoly();
+    const interval = setInterval(() => {
+      queryBlockchainEth();
+      queryBlockchainSep();
+      queryBlockchainPoly();
+    }, 10000);
+
+    return () => clearInterval(interval); 
+  }, []);
+
+
+
 
   return (
     <div className="App">
-      <span className='heading'>ETHERSCAN</span>
+      <span className='heading'>satsa-ETHERSCAN</span>
       <div className='container'>
         <div className='subcontainer'>
           <Counter title="Ethereum Mainnet" count={ethBlockCounter} />
           <Counter title="Sepolia" count={sepBlockCounter} />
+          <Counter title="Polygon zkEVM" count={polyBlockCounter} />
         </div>
-        <TransactionHistory />
+        <TransactionHistory providerSep={providerSep}/>
       </div>
     </div>
   );

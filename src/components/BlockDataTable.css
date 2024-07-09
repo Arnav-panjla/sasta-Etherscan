@@ -1,0 +1,38 @@
+.table-container {
+    width: 95%;
+    height: 70vh;
+    font-size: 25px;
+    margin: 15px auto;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; 
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #000000;
+    width: 33.33%; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+  }
+  
+  th {
+    background-color: #7eceb3;
+    position: sticky;
+    top: 0;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #d4abec;
+  }

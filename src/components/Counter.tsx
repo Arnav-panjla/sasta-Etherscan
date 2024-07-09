@@ -11,7 +11,7 @@ const Counter = ({title,count}:Props) => {
     <div className='counter-container'>
       <span className='counter-heading'>{title}</span>
       <br/>
-      <h2>{count}</h2>
+      <h2>{count.toLocaleString()}</h2>
     </div>
   )
 }
