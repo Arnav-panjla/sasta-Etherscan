@@ -5,6 +5,7 @@ import Counter from './components/Counter';
 import TransactionHistory from './components/TransactionHistory';
 
 const walletAddress = process.env.REACT_APP_WALLETADDRESS;
+
 const sepAPI = process.env.REACT_APP_APISEP;
 const ethAPI = process.env.REACT_APP_APIETH;
 const polyAPI = process.env.REACT_APP_APIPOLY;
@@ -16,6 +17,14 @@ const providerPoly = new ethers.providers.JsonRpcProvider(polyAPI);
 const address = walletAddress;
 
 function App() {
+
+  useEffect(() => {
+    document.title = "sasta-Etherscan"; 
+    return () => {
+      document.title = "sasta-Etherscan"; 
+    };
+  }, []);
+
   const [sepBlockCounter, setSepBlockCounter] = useState<number>(0);
   const [ethBlockCounter, setEthBlockCounter] = useState<number>(0);
   const [polyBlockCounter, setPolyBlockCounter] = useState<number>(0);
@@ -53,7 +62,7 @@ function App() {
 
   return (
     <div className="App">
-      <span className='heading'>satsa-ETHERSCAN</span>
+      <span className='heading'>sasta-ETHERSCAN</span>
       <div className='container'>
         <div className='subcontainer'>
           <Counter title="Ethereum Mainnet" count={ethBlockCounter} />

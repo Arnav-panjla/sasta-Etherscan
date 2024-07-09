@@ -22,7 +22,7 @@ const BlockDataTable = ({data}:Props) => {
             <tbody>
                 {data.map(tx => (
                 <tr key={tx.hash}>
-                    <td>{tx.hash}</td>
+                    <td><a href={`https://sepolia.etherscan.io/tx/${tx.hash}`}>{tx.hash}</a></td>
                     <td>{tx.from}</td>
                     <td>{tx.to}</td>
                     <td>{ethers.utils.formatEther(tx.value)}</td>
@@ -31,6 +31,7 @@ const BlockDataTable = ({data}:Props) => {
             </tbody>
             </table>
         </div>
+        <span className='table-footer'></span>
     </>
   )
 }

@@ -29,15 +29,45 @@ const TransactionHistory = ({providerSep}:Props) => {
             return []; 
         }
     }
-    
+
+    const getAccountData = async(accountNumber:string) =>{
+        try {
+            const curBlock = await providerSep.getBlockNumber();
+            console.log(curBlock)
+            const history: ethers.providers.TransactionResponse[] = [];
+            for (let i = curBlock; i > 6275000; i--) {
+                console.log(i)
+                const block = await providerSep.getBlockWithTransactions(i);
+                const txs = block.transactions || [];
+                
+                txs.map(tx => {
+                    if (tx.from === accountNumber || tx.to === accountNumber) {
+                        history.push(tx);
+                    }
+                })
+            }    
+            console.log('Transaction history:', history);
+            return history; 
+        } catch (error) {
+            console.error('Error fetching transactions:', error);
+            return []; 
+        }
+    }
 
     function handleValue(event: { target: { value: React.SetStateAction<string> } }){
         setValue(event.target.value)
     }
     
     async function handleSubmit() {
-        setData(await getBlockData(Number(value)));
-        console.log(data);
+        if (value.length <= 40 && value) {
+            setData(await getBlockData(Number(value)));
+            console.log(data);
+        }
+        else {
+            setData(await getAccountData(value))
+            console.log(data);
+        }
+        
     }
 
     return (
@@ -47,7 +77,7 @@ const TransactionHistory = ({providerSep}:Props) => {
                 <input className = "holder-input"
                 type="text" value={value}
                 onChange={handleValue}
-                placeholder="Enter block number..."
+                placeholder="Enter sepolia block number..."
                 ></input>
                 <button className="holder-button"
                 onClick={handleSubmit}
