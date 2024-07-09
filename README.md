@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## what all commands I used
  - npx create-react-app sasta-etherscan --template typescript
- - npm install ethers@5.4 (important !!!)
+ - npm install ethers@5.4 ( **important !!!**)
  - rest is obv..
 
 
